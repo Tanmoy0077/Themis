@@ -1,0 +1,7 @@
+docs/
+.env
+.vscode/
+__pycache__/
+*.pdf
+data/
+notebooks/
