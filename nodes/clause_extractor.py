@@ -25,7 +25,7 @@ def extract_clauses(state: ContractState) -> Optional[dict[str, str]]:
         input_variables=["document"],
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-pro-exp-03-25")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
     chain = prompt | llm | parser
     result = chain.invoke({"document": state.content})
     return result.dict()

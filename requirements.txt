@@ -1,0 +1,27 @@
+# Core Langchain & Integrations
+langchain
+langgraph
+langchain-core
+langchain-community
+langchain-google-genai
+langchain-groq
+langchain-pinecone
+langchain-huggingface
+
+# Vector Database
+pinecone-client
+
+# LLM & Embeddings Dependencies
+sentence-transformers # For HuggingFaceEmbeddings
+
+# Document Loading & Parsing
+pymupdf # For PyMuPDFLoader
+rapidocr-onnxruntime # For RapidOCRBlobParser
+
+# Web Scraping / Automation (if used elsewhere, based on imports)
+selenium
+backoff
+
+# Utilities
+pydantic
+python-dotenv

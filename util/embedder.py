@@ -57,7 +57,7 @@ def extract_case_metadata(text: str) -> dict:
             ("human", "{input}\n\n{format_instructions}"),
         ]
     )
-    chain = prompt | ChatGoogleGenerativeAI(model="gemini-2.5-pro-exp-03-25") | parser
+    chain = prompt | ChatGoogleGenerativeAI(model="gemini-2.0-flash") | parser
     result = chain.invoke(
         {"input": text, "format_instructions": parser.get_format_instructions()}
     )
