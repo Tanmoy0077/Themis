@@ -11,3 +11,6 @@ class Clauses(BaseModel):
 class ContractSchema(BaseModel):
     contract_type: str = Field(description="Type of the contract")
     industry: Optional[str] = Field(description="Industry if identifiable")
+
+class ReviewSchema(BaseModel):
+    review_steps: list[str] = Field(default_factory=list, description="List of review steps")
