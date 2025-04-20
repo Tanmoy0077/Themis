@@ -6,7 +6,6 @@ from typing import Optional
 from util.schemas import ContractSchema
 
 
-
 def classify_contract(state: ContractState) -> Optional[dict[str, str]]:
     parser = PydanticOutputParser(pydantic_object=ContractSchema)
     prompt = PromptTemplate(
@@ -25,7 +24,7 @@ def classify_contract(state: ContractState) -> Optional[dict[str, str]]:
         input_variables=["document"],
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
-    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.2)
     chain = prompt | llm | parser
 
     result = chain.invoke({"document": state.content})
