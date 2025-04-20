@@ -8,3 +8,4 @@ class ContractState(BaseModel):
     content: Optional[str] = None
     summary: Optional[str] = None
     clauses: Optional[list[dict[str, str]]] = None
+    review_steps: Optional[list[str]] = None
