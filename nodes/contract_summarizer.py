@@ -1,7 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from states import ContractState
-
+from util.logger import logger
 
 def summarize_contract(state: ContractState) -> dict[str, str]:
     prompt = PromptTemplate(
@@ -30,7 +30,9 @@ Summary:
     """,
         input_variables=["document"],
     )
-    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.2)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-preview-04-17", temperature=0.2)
     chain = prompt | llm
+    logger.info("Starting Contract Summarization")
     result = chain.invoke({"document": state.content})
+    logger.info("Contract Summarization Complete")
     return {"summary": result.content}

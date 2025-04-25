@@ -7,5 +7,6 @@ class ContractState(BaseModel):
     industry: Optional[str] = None
     content: Optional[str] = None
     summary: Optional[str] = None
-    clauses: Optional[list[dict[str, str]]] = None
+    clauses: Optional[list[dict]] = None
     review_steps: Optional[list[str]] = None
+    review: Optional[str] = None

@@ -1,1 +1,1 @@
-from contract_state import *
+from .contract_state import ContractState
