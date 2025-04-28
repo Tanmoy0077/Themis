@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+{% block content %}
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600">
+                <a href="/"> <i class="fas fa-balance-scale mr-2"></i>Themis - Dashboard</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="/" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded transition duration-200"><i class="fas fa-home mr-1"></i>Home</a>
+                <a href="/upload" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded transition duration-200"><i class="fas fa-upload mr-1"></i>New Upload</a>
+                <!-- Add other relevant links if needed -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">Court Case Analysis Results</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Column 1: Summary & Facts -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Case Summary Section -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-indigo-700 flex items-center">
+                            <i class="fas fa-file-alt mr-2"></i> Case Summary
+                        </h2>
+                        <button class="toggle-button text-indigo-600 hover:text-indigo-800 focus:outline-none" data-target="#summary-content">
+                            <i class="fas fa-chevron-down"></i> <!-- Initial state: collapsed -->
+                        </button>
+                    </div>
+                    <div id="summary-content" class="prose prose-indigo max-w-none text-gray-700 hidden transition-all duration-300 ease-in-out"> <!-- Initially hidden -->
+                        <!-- Render Markdown content passed from Flask -->
+                        {{ summary_markdown | safe }}
+                    </div>
+                </div>
+
+                <!-- Key Facts Section -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-indigo-700 flex items-center">
+                            <i class="fas fa-list-check mr-2"></i> Key Facts
+                        </h2>
+                        <button class="toggle-button text-indigo-600 hover:text-indigo-800 focus:outline-none" data-target="#facts-content">
+                             <i class="fas fa-chevron-down"></i> <!-- Initial state: collapsed -->
+                        </button>
+                    </div>
+                    <div id="facts-content" class="prose prose-indigo max-w-none text-gray-700 hidden transition-all duration-300 ease-in-out"> <!-- Initially hidden -->
+                        <!-- Render Markdown content passed from Flask -->
+                        {{ facts_markdown | safe }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Similar Cases -->
+            <div class="lg:col-span-2">
+                <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                    <i class="fas fa-copy mr-2"></i> Similar Cases
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6"> <!-- Changed to 1 column for better readability initially, adjust md:grid-cols-X if needed -->
+
+                    {% if similar_cases %}
+                        {% for case in similar_cases %}
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ case.number | default('N/A') }}</h3>
+                            <p class="text-gray-600 mb-4">{{ case.description | default('No description available.') }}</p>
+                            {% if case.url %}
+                            <a href="{{ case.url }}" target="_blank" rel="noopener noreferrer"
+                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                                View Case <i class="fas fa-external-link-alt ml-2"></i>
+                            </a>
+                            {% else %}
+                            <span class="text-sm text-gray-400 italic">No link available</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center text-gray-500">
+                            <p>No similar cases found.</p>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div> <!-- End Grid -->
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-6 mt-12">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2024 Themis. All rights reserved.</p>
+             <div class="mt-4">
+                <a href="https://github.com/Tanmoy0077/Themis" target="_blank" rel="noopener noreferrer"
+                    class="text-gray-400 hover:text-white mx-2">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include Tailwind Typography Plugin for Markdown Styling -->
+    <!-- Ensure this is loaded, either here or preferably in layout.html -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- JavaScript for Toggle Functionality -->
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.querySelector(targetId);
+                    const icon = this.querySelector('i');
+
+                    if (targetElement) {
+                        // Toggle visibility
+                        targetElement.classList.toggle('hidden');
+
+                        // Toggle icon
+                        if (targetElement.classList.contains('hidden')) {
+                            icon.classList.remove('fa-chevron-up');
+                            icon.classList.add('fa-chevron-down');
+                        } else {
+                            icon.classList.remove('fa-chevron-down');
+                            icon.classList.add('fa-chevron-up');
+                        }
+                    }
+                });
+
+                // Set initial icon state based on whether the content is hidden
+                const targetId = button.getAttribute('data-target');
+                const targetElement = document.querySelector(targetId);
+                const icon = button.querySelector('i');
+                if (targetElement && targetElement.classList.contains('hidden')) {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else if (targetElement) {
+                     icon.classList.remove('fa-chevron-down');
+                     icon.classList.add('fa-chevron-up');
+                }
+            });
+        });
+    </script> -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+{% endblock %}

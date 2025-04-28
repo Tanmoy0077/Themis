@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<head>
+    <title>About Us - Themis</title>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Optional Header - Link back to Home -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600">
+                <a href="/"> <i class="fas fa-balance-scale mr-2"></i>Themis</a> <!-- Link back to homepage -->
+            </div>
+            <div>
+                <a href="/" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded transition duration-200"><i class="fas fa-arrow-left mr-1"></i>Back to Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main About Us Section -->
+    <main class="container mx-auto px-6 py-16 md:py-24">
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-8">
+            About Themis
+        </h1>
+        <p class="text-lg md:text-xl text-gray-700 text-center max-w-3xl mx-auto mb-16">
+            Themis is an AI-powered legal assistant built to simplify the complex world of legal documents. Our mission is to leverage cutting-edge language models to provide efficient analysis, summarization, and insight extraction for legal professionals and anyone dealing with legal texts.
+        </p>
+
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+            Meet the Team
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 max-w-4xl mx-auto">
+
+            <!-- Developer 1 Card -->
+            <div class="profile-card bg-white p-8 rounded-lg shadow-md text-center">
+                <!-- Optional: Add an img tag here for a profile picture -->
+                <!-- <img src="placeholder_dev1.jpg" alt="Developer One" class="w-24 h-24 rounded-full mx-auto mb-4"> -->
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Developer One</h3>
+                <p class="text-indigo-600 font-medium mb-4">Lead Developer / AI Engineer</p>
+                <p class="text-gray-600 mb-6">
+                    Passionate about applying AI to solve real-world problems. Focused on building the core LLM functionalities and backend infrastructure for Themis.
+                </p>
+                <div class="flex justify-center space-x-6 social-icon">
+                    <a href="https://github.com/YOUR_GITHUB_USERNAME_1" target="_blank" rel="noopener noreferrer" title="GitHub" class="text-gray-500 hover:text-indigo-600">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/YOUR_LINKEDIN_PROFILE_1" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="text-gray-500 hover:text-indigo-600">
+                        <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                    <a href="https://kaggle.com/YOUR_KAGGLE_USERNAME_1" target="_blank" rel="noopener noreferrer" title="Kaggle" class="text-gray-500 hover:text-indigo-600">
+                        <i class="fab fa-kaggle fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Developer 2 Card -->
+            <div class="profile-card bg-white p-8 rounded-lg shadow-md text-center">
+                <!-- Optional: Add an img tag here for a profile picture -->
+                <!-- <img src="placeholder_dev2.jpg" alt="Developer Two" class="w-24 h-24 rounded-full mx-auto mb-4"> -->
+                <h3 class="text-2xl font-semibold text-gray-800 mb-2">Developer Two</h3>
+                <p class="text-indigo-600 font-medium mb-4">Frontend Developer / UI/UX</p>
+                <p class="text-gray-600 mb-6">
+                    Focused on creating an intuitive and user-friendly interface for Themis. Enjoys crafting seamless user experiences and bringing designs to life.
+                </p>
+                <div class="flex justify-center space-x-6 social-icon">
+                    <a href="https://github.com/YOUR_GITHUB_USERNAME_2" target="_blank" rel="noopener noreferrer" title="GitHub" class="text-gray-500 hover:text-indigo-600">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/YOUR_LINKEDIN_PROFILE_2" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="text-gray-500 hover:text-indigo-600">
+                        <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                    <a href="https://kaggle.com/YOUR_KAGGLE_USERNAME_2" target="_blank" rel="noopener noreferrer" title="Kaggle" class="text-gray-500 hover:text-indigo-600">
+                        <i class="fab fa-kaggle fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 mt-16">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2024 Themis. All rights reserved.</p>
+             <div class="mt-4">
+                <a href="https://github.com/Tanmoy0077/Themis" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mx-2">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+                <!-- Add other relevant links if needed -->
+             </div>
+        </div>
+    </footer>
+
+</body>
+{% endblock %}

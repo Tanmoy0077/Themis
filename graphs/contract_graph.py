@@ -32,8 +32,9 @@ graph_builder.add_edge("review_contract", END)
 contract_graph = graph_builder.compile()
 
 
-try:
-    contract_graph.get_graph().draw_mermaid_png(output_file_path="contract_graph.png")
-except Exception as e:
-    print("Could not draw contract graph: ", e)
+# Uncomment the following lines to draw the contract graph
+# try:
+#     contract_graph.get_graph().draw_mermaid_png(output_file_path="contract_graph.png")
+# except Exception as e:
+#     print("Could not draw contract graph: ", e)
     

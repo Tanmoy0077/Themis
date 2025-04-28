@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<head>
+    {# We keep the <title> specific to this page #}
+    <title>Upload Document - Themis</title>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Optional Header - Link back to Home -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600">
+                <a href="/"> <i class="fas fa-balance-scale mr-2"></i>Themis</a> <!-- Link back to homepage -->
+            </div>
+            <div>
+                <a href="/" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded transition duration-200"><i class="fas fa-arrow-left mr-1"></i>Back to Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Display Flashed Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container mx-auto px-6 mt-4">
+          {% for category, message in messages %}
+            <div class="{% if category == 'error' %}bg-red-100 border-red-400 text-red-700{% elif category == 'success' %}bg-green-100 border-green-400 text-green-700{% else %}bg-blue-100 border-blue-400 text-blue-700{% endif %} border px-4 py-3 rounded relative mb-2" role="alert">
+              <span class="block sm:inline">{{ message }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+
+    <!-- Main Upload Section -->
+    <main class="container mx-auto px-6 py-16 md:py-24 flex justify-center items-center min-h-[calc(100vh-200px)]"> <!-- Adjusted min-height -->
+        <div class="bg-white p-8 md:p-12 rounded-lg shadow-xl w-full max-w-lg">
+            <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">
+                Upload Your Legal Document
+            </h1>
+
+            <!-- Upload Form -->
+            <!-- Changed action to point to the correct processing route -->
+            <form id="upload-form" action="{{ url_for('file_processing') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+                <!-- Document Type Selection -->
+                <div>
+                    <label for="document_type" class="block text-sm font-medium text-gray-700 mb-1">
+                        Select Document Type:
+                    </label>
+                    <select id="document_type" name="document_type" required
+                            class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="" disabled selected>-- Please Select --</option>
+                        <option value="contract">Contract</option>
+                        <option value="court_case">Court Case</option>
+                    </select>
+                </div>
+
+                <!-- File Upload Input -->
+                <div>
+                    <label for="file_upload" class="block text-sm font-medium text-gray-700 mb-1">
+                        Upload PDF Document:
+                    </label>
+                    <input type="file" id="file_upload" name="file_upload" required accept=".pdf"
+                           class="mt-1 block w-full text-sm text-gray-500 border border-gray-300 rounded-md cursor-pointer focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700">
+                     <p class="mt-1 text-xs text-gray-500">Only PDF files are accepted.</p>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" id="submit-button"
+                            class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-cloud-upload-alt mr-2"></i>
+                        Upload and Analyze
+                    </button>
+                </div>
+
+                <!-- Loading Indicator (Hidden by default) -->
+                <div id="loading-indicator" class="hidden text-center mt-4 flex justify-center items-center space-x-2 text-gray-600">
+                     <div class="spinner"></div>
+                     <span>Processing your document, please wait...</span>
+                </div>
+
+            </form>
+            <!-- End Upload Form -->
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2024 Themis. All rights reserved.</p>
+             <div class="mt-4">
+                <a href="https://github.com/Tanmoy0077/Themis" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mx-2">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+                <!-- Add other relevant links if needed -->
+             </div>
+        </div>
+    </footer>
+
+    {# JavaScript specific to the upload page #}
+    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+
+</body>
+{% endblock %}
