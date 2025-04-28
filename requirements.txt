@@ -17,6 +17,8 @@ sentence-transformers # For HuggingFaceEmbeddings
 # Document Loading & Parsing
 pymupdf # For PyMuPDFLoader
 rapidocr-onnxruntime # For RapidOCRBlobParser
+markdown
+
 
 # Web Scraping / Automation (if used elsewhere, based on imports)
 selenium
@@ -25,3 +27,4 @@ backoff
 # Utilities
 pydantic
 python-dotenv
+flask
