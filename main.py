@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 import markdown
 from graphs.contract_graph import contract_graph
+from graphs.court_case_graph import court_case_graph
 from dotenv import load_dotenv
 from util.parser import format_clauses_to_markdown
 from runner import get_court_case_analysis_data
@@ -32,6 +33,20 @@ def analyze_contract(filepath):
             extensions=["tables", "nl2br"],
         ),
         "review": markdown.markdown(data["review"], extensions=["tables", "nl2br"]),
+    }
+
+
+def analyze_court_case(filepath):
+    data = court_case_graph.invoke({"document_path": filepath})
+    sample = get_court_case_analysis_data()
+    return {
+        "summary_markdown": markdown.markdown(
+            data["summary"], extensions=["tables", "nl2br"]
+        ),
+        "facts_markdown": markdown.markdown(
+            data["facts"], extensions=["tables", "nl2br"]
+        ),
+        "similar_cases": sample["similar_cases"],
     }
 
 
@@ -88,7 +103,7 @@ def file_processing():
                     )
 
                 elif document_type == "court_case":
-                    analysis_data = get_court_case_analysis_data()
+                    analysis_data = analyze_court_case(filepath)
                     # In a real scenario, you would call a function like analyze_court_case(filepath)
                     return render_template(
                         "court.html",
