@@ -12,6 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import logging
 from functools import wraps
 import backoff
+import csv
 
 
 @dataclass
@@ -252,7 +253,7 @@ class LinkExtractor:
 def main():
     config = ScraperConfig(headless=True)  # Set headless mode here if desired
     base_url = "https://indiankanoon.org/search/?formInput=doctypes%3A%20supremecourt%20year%3A%202020&pagenum="
-    download_folder = "E:\\Programming\\Agentic\\Legal Assistant\\docs" # Change download path accordingly
+    download_folder = "E:\\Team Projects\\Themis\\docs" # Change download path accordingly
     num_pages_to_scrape = 10  # Define how many pages
 
     all_links = []
@@ -282,11 +283,13 @@ def main():
     logging.info("Starting PDF download process...")
     try:
         with PDFDownloader(config) as downloader:
+            download_log = []
             for i, link in enumerate(all_links, 1):
                 logging.info(f"--- Downloading {i}/{len(all_links)}: {link} ---")
                 pdf_path = downloader.download_pdf(link, download_folder)
                 if pdf_path:
                     logging.info(f"Successfully downloaded to: {pdf_path}")
+                    download_log.append({"Link": link, "PDF Path": pdf_path})
                 else:
                     logging.error(f"Failed to download: {link}")
 
@@ -294,6 +297,13 @@ def main():
         logging.error(f"An error occurred during the PDF download process: {e}")
 
     logging.info("Script finished.")
+
+    csv_file_path = "downloaded_pdfs_log.csv"
+    with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=["Link", "PDF Path"])
+        writer.writeheader()
+        writer.writerows(download_log)
+
 
 
 if __name__ == "__main__":
