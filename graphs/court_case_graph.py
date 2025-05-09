@@ -1,4 +1,3 @@
-
 from langgraph.graph import StateGraph, START, END
 from states import CourtCaseState
 from nodes import (
@@ -25,8 +24,9 @@ graph_builder.add_edge("case_facts", END)
 court_case_graph = graph_builder.compile()
 
 
-try:
-    court_case_graph.get_graph().draw_mermaid_png(output_file_path="court_case_graph.png")
-except Exception as e:
-    print("Could not draw contract graph: ", e)
+# Uncomment the following lines to draw the court case graph
+# try:
+#     court_case_graph.get_graph().draw_mermaid_png(output_file_path="court_case_graph.png")
+# except Exception as e:
+#     print("Could not draw contract graph: ", e)
     

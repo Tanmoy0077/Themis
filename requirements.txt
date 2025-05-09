@@ -1,7 +1,7 @@
 # Core Langchain & Integrations
 langchain
 langgraph
-langchain-core
+# langchain-core
 langchain-community
 langchain-google-genai
 langchain-groq
