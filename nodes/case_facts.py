@@ -7,12 +7,11 @@ from util.logger import logger
 def case_facts(state: CourtCaseState) -> dict[str, str]:
     prompt = PromptTemplate(
         template="""
+        Task: You are an expert legal document analyst. I will provide you with a full court case document. Your job is to extract information from the document based on the following points. Ensure accuracy and completeness.
 
-        Task: You are an expert legal document analyst. I will provide you with a full court case document. Your job is to extract structured information from the document based on the following categories. Ensure accuracy and completeness while maintaining a structured format.
+        Output Format: Use the following points to structure your response. Each point should be clearly labeled and contain the relevant information extracted from the document. If a specific point is not applicable or not mentioned in the document, don't include it in your response.
 
-        Output Format: Use the format below to organize your response. If a field is missing in the document, return "Not Available".
-
-        1️⃣ Basic Case Details
+        1. Basic Case Details
 
         Case Title: (Who vs. Who)
 
@@ -28,7 +27,7 @@ def case_facts(state: CourtCaseState) -> dict[str, str]:
 
         Equivalent Citations: (If available)
 
-        2️⃣ Parties Involved
+        2. Parties Involved
 
         Appellant(s): (Who filed the appeal)
 
@@ -36,7 +35,7 @@ def case_facts(state: CourtCaseState) -> dict[str, str]:
 
         Lawyers (if mentioned): (Names of advocates for both sides)
 
-        3️⃣ Nature of Case
+        3. Nature of Case
 
         Type of Case: (Civil, Criminal, Constitutional, etc.)
 
@@ -44,7 +43,7 @@ def case_facts(state: CourtCaseState) -> dict[str, str]:
 
         Nature of Dispute: (A short summary of the key legal issue in the case)
 
-        4️⃣ Case Background & Arguments
+        4. Case Background & Arguments
 
         Facts of the Case: (Summary of the background events leading to the case)
 
@@ -54,7 +53,7 @@ def case_facts(state: CourtCaseState) -> dict[str, str]:
 
         Arguments by Respondent: (Defensive arguments against the appeal)
 
-        5️⃣ Court Proceedings & Judgment
+        5. Court Proceedings & Judgment
 
         Lower Court Decisions (if applicable): (What the lower court ruled)
 
@@ -66,7 +65,7 @@ def case_facts(state: CourtCaseState) -> dict[str, str]:
 
         Status of the Case: (Pending, Disposed, Referred to another court, etc.)
 
-        6️⃣ Additional Details (If Available)
+        6. Additional Details (If Available)
 
         Witnesses Mentioned: (Names, if relevant)
 
@@ -74,16 +73,12 @@ def case_facts(state: CourtCaseState) -> dict[str, str]:
 
         Important Precedents Cited: (Any past judgments referred to)
 
-        📌 Output should be structured clearly like a database entry. Do NOT generate extra commentary.
+        Document from which facts to be extracted:
+        ---------------------
+        {document}
+        ---------------------
 
-
-
-Document from which facts to be extracted:
----------------------
-{document}
----------------------
-
-Summary:
+        Summary:
     """,
         input_variables=["document"],
     )
