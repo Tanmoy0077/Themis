@@ -19,3 +19,9 @@ class ContractSchema(BaseModel):
 
 class ReviewSchema(BaseModel):
     review_steps: list[str] = Field(default_factory=list, description="List of review steps")
+
+class CaseDetail(BaseModel):
+    title: str = Field(description="The title or heading of the court case.")
+    identifier: str = Field(description="The case number of the court case.")
+    summary_for_similar: str = Field(description="Short summary of the court case")
+    facts_for_similar: list[str] = Field(description="Important facts on basis of 6 fields from the court case ")

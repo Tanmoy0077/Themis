@@ -7,3 +7,4 @@ class CourtCaseState(BaseModel):
     content: Optional[str] = None
     summary: Optional[str] = None
     facts: Optional[str] = None
+ 
