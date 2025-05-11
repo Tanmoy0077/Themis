@@ -4,12 +4,13 @@ from langchain_core.output_parsers import PydanticOutputParser
 import pandas as pd
 from tqdm import tqdm
 import os
-import fitz 
-from schemas import CaseDetail
-from logger import logger
+import fitz
+from util.schemas import CaseDetail
+from util.logger import logger
 
 PDF_FOLDER = "../docs"
 CSV_FILE = "../notebooks/cleaned_downloaded_pdfs_log.csv"
+
 
 def extract_text_from_pdf(pdf_path):
     try:
@@ -21,6 +22,7 @@ def extract_text_from_pdf(pdf_path):
     except Exception as e:
         print(f"Failed to extract text from {pdf_path}: {e}")
         return ""
+
 
 def extract_details(document_text):
     parser = PydanticOutputParser(pydantic_object=CaseDetail)
@@ -54,12 +56,15 @@ Ensure your output strictly follows the format instructions. Analyze each court 
         input_variables=["document"],
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-preview-04-17", temperature=0.2)
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash-preview-04-17", temperature=0.2
+    )
     chain = prompt | llm | parser
     logger.info("Starting Case Details Extraction")
     result = chain.invoke({"document": document_text})
     logger.info("Case Details Extraction Complete")
     return result.dict()
+
 
 # pdf="docs\Dahiben_vs_Arvindbhai_Kalyanji_Bhanusali_Gajra_on_9_July_2020.PDF"
 # result_dict = extract_details(pdf)
@@ -80,11 +85,9 @@ if __name__ == "__main__":
     df = pd.read_csv(CSV_FILE)
     # print(os.listdir(PDF_FOLDER))
 
-
     for col in ["Title", "Identifier", "Summary", "Facts"]:
         if col not in df.columns:
             df[col] = ""
-
 
     for i, row in tqdm(df.iterrows(), total=len(df)):
         pdf_name = row["PDF Path"]
@@ -94,13 +97,11 @@ if __name__ == "__main__":
             print(f"File not found: {pdf_path}")
             continue
 
-    
         document_text = extract_text_from_pdf(pdf_path)
         if not document_text.strip():
             print(f"No text found in {pdf_name}")
             continue
 
-        
         try:
             result = extract_details(document_text)
             df.at[i, "Title"] = result.get("title", "Not Available")

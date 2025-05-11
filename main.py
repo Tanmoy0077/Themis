@@ -5,7 +5,7 @@ from graphs.contract_graph import contract_graph
 from graphs.court_case_graph import court_case_graph
 from dotenv import load_dotenv
 from util.parser import format_clauses_to_markdown
-from runner import get_court_case_analysis_data
+from util.retriever import get_similar_documents
 
 load_dotenv()
 
@@ -38,7 +38,16 @@ def analyze_contract(filepath):
 
 def analyze_court_case(filepath):
     data = court_case_graph.invoke({"document_path": filepath})
-    sample = get_court_case_analysis_data()
+    similar_docs = get_similar_documents(data["facts"])
+    cases = []
+    for doc in similar_docs:
+        cases.append(
+            {
+                "number": doc.metadata["title"],
+                "description": doc.metadata["summary"],
+                "url": doc.metadata["link"],
+            }
+        )
     return {
         "summary_markdown": markdown.markdown(
             data["summary"], extensions=["tables", "nl2br"]
@@ -46,7 +55,7 @@ def analyze_court_case(filepath):
         "facts_markdown": markdown.markdown(
             data["facts"], extensions=["tables", "nl2br"]
         ),
-        "similar_cases": sample["similar_cases"],
+        "similar_cases": cases,
     }
 
 
@@ -131,4 +140,4 @@ def file_processing():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
