@@ -3,18 +3,13 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 import pandas as pd
 from tqdm import tqdm
-import sys
 import os
 import fitz 
+from schemas import CaseDetail
+from logger import logger
 
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from util.schemas import CaseDetail
-from util.logger import logger
-
-PDF_FOLDER = "docs"
-CSV_FILE = "notebooks\cleaned_downloaded_pdfs_log.csv"
+PDF_FOLDER = "../docs"
+CSV_FILE = "../notebooks/cleaned_downloaded_pdfs_log.csv"
 
 def extract_text_from_pdf(pdf_path):
     try:
@@ -81,38 +76,39 @@ Ensure your output strictly follows the format instructions. Analyze each court 
 # for fact in facts:
 #     print("-", fact)
 
-
-df = pd.read_csv(CSV_FILE)
-
-
-for col in ["Title", "Identifier", "Summary", "Facts"]:
-    if col not in df.columns:
-        df[col] = ""
+if __name__ == "__main__":
+    df = pd.read_csv(CSV_FILE)
+    # print(os.listdir(PDF_FOLDER))
 
 
-for i, row in tqdm(df.iterrows(), total=len(df)):
-    pdf_name = row["PDF Path"]
-    pdf_path = os.path.join(PDF_FOLDER, pdf_name)
+    for col in ["Title", "Identifier", "Summary", "Facts"]:
+        if col not in df.columns:
+            df[col] = ""
 
-    if not os.path.exists(pdf_path):
-        print(f"File not found: {pdf_path}")
-        continue
 
-  
-    document_text = extract_text_from_pdf(pdf_path)
-    if not document_text.strip():
-        print(f"No text found in {pdf_name}")
-        continue
+    for i, row in tqdm(df.iterrows(), total=len(df)):
+        pdf_name = row["PDF Path"]
+        pdf_path = os.path.join(PDF_FOLDER, pdf_name)
+
+        if not os.path.exists(pdf_path):
+            print(f"File not found: {pdf_path}")
+            continue
 
     
-    try:
-        result = extract_details(document_text)
-        df.at[i, "Title"] = result.get("title", "Not Available")
-        df.at[i, "Identifier"] = result.get("identifier", "Not Available")
-        df.at[i, "Summary"] = result.get("summary_for_similar", "Not Available")
-        df.at[i, "Facts"] = " | ".join(result.get("facts_for_similar", []))
-    except Exception as e:
-        print(f"Error processing {pdf_name}: {e}")
+        document_text = extract_text_from_pdf(pdf_path)
+        if not document_text.strip():
+            print(f"No text found in {pdf_name}")
+            continue
 
-df.to_csv("data_updated.csv", index=False)
-print("Extraction complete. Saved to data_updated.csv")
+        
+        try:
+            result = extract_details(document_text)
+            df.at[i, "Title"] = result.get("title", "Not Available")
+            df.at[i, "Identifier"] = result.get("identifier", "Not Available")
+            df.at[i, "Summary"] = result.get("summary_for_similar", "Not Available")
+            df.at[i, "Facts"] = " | ".join(result.get("facts_for_similar", []))
+        except Exception as e:
+            print(f"Error processing {pdf_name}: {e}")
+
+    df.to_csv("data_updated.csv", index=False)
+    print("Extraction complete. Saved to data_updated.csv")
