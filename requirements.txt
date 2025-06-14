@@ -11,7 +11,7 @@ langchain-huggingface
 pinecone-client
 
 # LLM & Embeddings Dependencies
-sentence-transformers[onnx]
+sentence-transformers
 
 # Document Loading & Parsing
 pymupdf # For PyMuPDFLoader
@@ -24,3 +24,4 @@ python-dotenv
 flask
 pandas
 numpy
+gunicorn
