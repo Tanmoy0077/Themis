@@ -4,7 +4,6 @@ langgraph
 # langchain-core
 langchain-community
 langchain-google-genai
-langchain-groq
 langchain-pinecone
 langchain-huggingface
 
@@ -12,17 +11,12 @@ langchain-huggingface
 pinecone-client
 
 # LLM & Embeddings Dependencies
-sentence-transformers # For HuggingFaceEmbeddings
+sentence-transformers[onnx]
 
 # Document Loading & Parsing
 pymupdf # For PyMuPDFLoader
 rapidocr-onnxruntime # For RapidOCRBlobParser
 markdown
-
-
-# Web Scraping / Automation (if used elsewhere, based on imports)
-selenium
-backoff
 
 # Utilities
 pydantic

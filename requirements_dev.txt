@@ -1,0 +1,3 @@
+selenium
+backoff
+langchain-groq
