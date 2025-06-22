@@ -1,0 +1,16 @@
+.git
+.gitignore
+
+venv
+
+__pycache__/
+*.pyc
+
+.vscode/
+
+/uploads/
+/docs/
+/notebooks/
+.env
+runner.py
+requirements_dev.txt
