@@ -1,4 +1,5 @@
 # Themis - AI-Powered Legal Document Assistant
+<p style="text-align: center;"> <a href="https://themis-wfyk.onrender.com">Homepage</a> | <a href="https://drive.google.com/file/d/1-wOSayhetrsw0OR_SP39Q1wbkjURgn6C/view?usp=sharing">Demo</a></p>
 
 ## Introduction
 
